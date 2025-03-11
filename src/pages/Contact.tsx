@@ -40,7 +40,7 @@ export default function ContactPage() {
                       <Mail className="h-6 w-6 text-green-500" />
                     </div>
                     <div className="ml-3">
-                      <p className="text-gray-900 font-medium">Teresita Flincher</p>
+                      <p className="text-gray-900 font-medium">Ma. Teresa C. Fincher</p>
                       <p className="text-gray-600">Head of Marketing Department</p>
                       <a href="mailto:teresita.flincher@ongoingworkforce.com" className="text-green-600 hover:text-green-700">
                         teresita.flincher@ongoingworkforce.com
@@ -78,14 +78,15 @@ export default function ContactPage() {
                 <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Cpu className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Asia Branch Client</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Asia Branch Manager</h3>
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <Mail className="h-6 w-6 text-blue-500" />
                     </div>
                     <div className="ml-3">
-                      <p className="text-gray-900 font-medium">Head of Technology Department</p>
+                      <p className="text-gray-900 font-medium">Angelo Tapang</p>
+                      <p className="text-gray-600">Head of Technology Department</p>
                       <a href="mailto:tech.asia@ongoingworkforce.com" className="text-blue-600 hover:text-blue-700">
                         tech.asia@ongoingworkforce.com
                       </a>
