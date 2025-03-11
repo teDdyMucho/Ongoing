@@ -16,7 +16,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL || 'your-webhook-url';
+  const WEBHOOK_URL = 'https://primary-production-166e.up.railway.app/webhook-test/02b13a3b-651b-47a5-b864-08dacbd10e46';
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,24 +44,22 @@ export default function ChatWidget() {
     try {
       const response = await axios.post(WEBHOOK_URL, {
         message: newMessage.text,
-        timestamp: newMessage.timestamp,
+        timestamp: newMessage.timestamp.toISOString(),
         userId: 'user-' + Math.random().toString(36).substr(2, 9),
       });
 
-      if (response.data) {
-        const adminResponse: Message = {
-          id: Date.now().toString(),
-          text: response.data.message || 'Message received. We will get back to you soon.',
-          sender: 'admin',
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, adminResponse]);
-      }
+      const adminResponse: Message = {
+        id: Date.now().toString(),
+        text: response.data,
+        sender: 'admin',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, adminResponse]);
     } catch (error) {
       console.error('Error sending message:', error);
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
-        text: 'Sorry, there was an error sending your message. Please try again.',
+        text: 'Sorry, there was an error sending your message. Our team has been notified and we will fix this issue soon.',
         sender: 'admin',
         timestamp: new Date(),
       }]);
