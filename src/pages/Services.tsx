@@ -9,9 +9,84 @@ interface Service {
   description: string;
   category: 'human' | 'ai';
   backgroundImage: string;
+  featured?: boolean;
 }
 
 const services: Service[] = [
+  // AI Services (Prioritized)
+  {
+    icon: Bot,
+    title: 'AI Agent',
+    description: 'Intelligent automated agents for various business tasks and processes.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80',
+    featured: true
+  },
+  {
+    icon: BrainCircuit,
+    title: 'Machine Learning',
+    description: 'Custom machine learning solutions for your business.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80',
+    featured: true
+  },
+  {
+    icon: MessageSquareMore,
+    title: '24/7 AI Messaging',
+    description: 'Round-the-clock AI-powered communication and support.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1675467169559-3a4d2f4581d7?auto=format&fit=crop&q=80',
+    featured: true
+  },
+  {
+    icon: Code,
+    title: 'AI Development',
+    description: 'Custom AI solution development and integration.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80'
+  },
+  {
+    icon: Database,
+    title: 'Data Analytics',
+    description: 'Advanced data analysis and insights powered by AI.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80'
+  },
+  {
+    icon: Cpu,
+    title: 'Process Automation',
+    description: 'Intelligent automation of business processes.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&q=80'
+  },
+  {
+    icon: FileSpreadsheet,
+    title: 'AI Backoffice',
+    description: 'Automated back-office operations and data processing.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&q=80'
+  },
+  {
+    icon: Calculator,
+    title: 'AI Accountant',
+    description: 'Intelligent financial management and reporting systems.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80'
+  },
+  {
+    icon: Globe,
+    title: 'AI Translation',
+    description: 'Multi-language support and translation services.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80'
+  },
+  {
+    icon: Palette,
+    title: 'Website Customization',
+    description: 'AI-driven website personalization and optimization.',
+    category: 'ai',
+    backgroundImage: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80'
+  },
   // Human Services
   {
     icon: PhoneCall,
@@ -54,83 +129,11 @@ const services: Service[] = [
     description: 'Professional content writing and creation services.',
     category: 'human',
     backgroundImage: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80'
-  },
-
-  // AI Services
-  {
-    icon: Bot,
-    title: 'AI Agent',
-    description: 'Intelligent automated agents for various business tasks and processes.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: MessageSquareMore,
-    title: '24/7 AI Messaging',
-    description: 'Round-the-clock AI-powered communication and support.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1675467169559-3a4d2f4581d7?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: Palette,
-    title: 'Website Customization',
-    description: 'AI-driven website personalization and optimization.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: FileSpreadsheet,
-    title: 'AI Backoffice',
-    description: 'Automated back-office operations and data processing.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: Calculator,
-    title: 'AI Accountant',
-    description: 'Intelligent financial management and reporting systems.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: Code,
-    title: 'AI Development',
-    description: 'Custom AI solution development and integration.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: Database,
-    title: 'Data Analytics',
-    description: 'Advanced data analysis and insights powered by AI.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: Globe,
-    title: 'AI Translation',
-    description: 'Multi-language support and translation services.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: Cpu,
-    title: 'Process Automation',
-    description: 'Intelligent automation of business processes.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&q=80'
-  },
-  {
-    icon: BrainCircuit,
-    title: 'Machine Learning',
-    description: 'Custom machine learning solutions for your business.',
-    category: 'ai',
-    backgroundImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80'
   }
 ];
 
 export default function ServicesPage() {
-  const [selectedCategory, setSelectedCategory] = React.useState<'all' | 'human' | 'ai'>('all');
+  const [selectedCategory, setSelectedCategory] = React.useState<'all' | 'human' | 'ai'>('ai');
 
   const filteredServices = selectedCategory === 'all' 
     ? services 
@@ -146,21 +149,21 @@ export default function ServicesPage() {
               Our Services
             </h1>
             <p className="mt-4 text-xl text-gray-600">
-              Comprehensive solutions for your business needs
+              Advanced AI Solutions and Professional Human Workforce
             </p>
           </div>
 
           {/* Category Filter */}
           <div className="flex justify-center space-x-4 mb-12">
             <button
-              onClick={() => setSelectedCategory('all')}
+              onClick={() => setSelectedCategory('ai')}
               className={`px-6 py-2 rounded-full ${
-                selectedCategory === 'all'
-                  ? 'bg-gray-900 text-white'
+                selectedCategory === 'ai'
+                  ? 'bg-blue-600 text-white'
                   : 'bg-white text-gray-600 hover:bg-gray-100'
               }`}
             >
-              All Services
+              AI Solutions
             </button>
             <button
               onClick={() => setSelectedCategory('human')}
@@ -173,14 +176,14 @@ export default function ServicesPage() {
               Human Workforce
             </button>
             <button
-              onClick={() => setSelectedCategory('ai')}
+              onClick={() => setSelectedCategory('all')}
               className={`px-6 py-2 rounded-full ${
-                selectedCategory === 'ai'
-                  ? 'bg-blue-600 text-white'
+                selectedCategory === 'all'
+                  ? 'bg-gray-900 text-white'
                   : 'bg-white text-gray-600 hover:bg-gray-100'
               }`}
             >
-              AI Solutions
+              All Services
             </button>
           </div>
 
@@ -189,7 +192,9 @@ export default function ServicesPage() {
             {filteredServices.map((service, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className={`group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
+                  service.featured ? 'md:col-span-2 lg:col-span-1 ring-2 ring-blue-500' : ''
+                }`}
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center transform transition-transform duration-700 group-hover:scale-110"
@@ -201,19 +206,19 @@ export default function ServicesPage() {
                   <div>
                     <div className="inline-flex items-center justify-center p-3 bg-white rounded-lg shadow-lg mb-4">
                       <service.icon className={`h-6 w-6 ${
-                        service.category === 'human' ? 'text-green-600' : 'text-blue-600'
+                        service.category === 'ai' ? 'text-blue-600' : 'text-green-600'
                       }`} />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">{service.title}</h3>
                     <p className="text-gray-200">{service.description}</p>
                   </div>
-                  <button className={`mt-6 px-6 py-2 rounded-lg ${
-                    service.category === 'human'
-                      ? 'bg-green-600 hover:bg-green-700'
-                      : 'bg-blue-600 hover:bg-blue-700'
-                  } text-white transition-colors duration-300`}>
-                    Learn More
-                  </button>
+                  {service.featured && (
+                    <div className="mt-4">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        Featured Service
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

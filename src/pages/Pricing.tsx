@@ -1,13 +1,41 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Check, Users, Bot, Zap } from 'lucide-react';
+import { Check, Users, Bot, Zap, PhoneCall } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import GetStartedModal from '../components/GetStartedModal';
 
-const PricingPage = () => {
+export default function PricingPage() {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showForm, setShowForm] = React.useState(false);
+  const [formData, setFormData] = React.useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  const formRef = React.useRef<HTMLDivElement>(null);
+
+  const handleGetStarted = () => {
+    setShowForm(true);
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -20,6 +48,38 @@ const PricingPage = () => {
           <p className="mt-4 text-xl text-gray-600">
             Flexible pricing options to match your business needs
           </p>
+        </div>
+
+        {/* Special Offer Banner */}
+        <div className="mb-12 rounded-2xl overflow-hidden shadow-xl relative">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ 
+              backgroundImage: `url('https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80')`,
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/95 to-blue-800/95" />
+          <div className="px-8 py-6 flex flex-col md:flex-row items-center justify-between relative">
+            <div className="text-center md:text-left mb-4 md:mb-0">
+              <div className="inline-block px-3 py-1 bg-yellow-400 text-blue-900 text-sm font-semibold rounded-full mb-3">
+                Limited Time Offer
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                Set up your AI Agent now for as low as $99 per month!!
+              </h3>
+              <p className="text-blue-100">
+                "Automate Today, Lead Tomorrow – Plus, Enjoy 1 Week Free!"
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <button 
+                onClick={handleGetStarted}
+                className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-300 shadow-md"
+              >
+                Get Started Now
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -78,7 +138,7 @@ const PricingPage = () => {
                 </div>
               </div>
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleGetStarted}
                 className="mt-8 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors"
                 >
                 Get Started
@@ -157,7 +217,7 @@ const PricingPage = () => {
                 </div>
               </div>
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleGetStarted}
                 className="mt-8 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                 Get Started
@@ -218,10 +278,67 @@ const PricingPage = () => {
         </div>
       </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {showForm && (
+          <div ref={formRef} className="mt-8 bg-white p-8 rounded-2xl shadow-xl">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Start Your AI Journey</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                <input 
+                  name="fullName"
+                  type="text" 
+                  value={formData.fullName} 
+                  onChange={handleInputChange} 
+                  className="mt-1 block w-full rounded-lg border p-2" 
+                  required 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <input 
+                  name="email"
+                  type="email" 
+                  value={formData.email} 
+                  onChange={handleInputChange} 
+                  className="mt-1 block w-full rounded-lg border p-2" 
+                  required 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input 
+                  name="phone"
+                  type="tel" 
+                  value={formData.phone} 
+                  onChange={handleInputChange} 
+                  className="mt-1 block w-full rounded-lg border p-2" 
+                  required 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Message</label>
+                <textarea 
+                  name="message"
+                  value={formData.message} 
+                  onChange={handleInputChange} 
+                  className="mt-1 block w-full rounded-lg border p-2" 
+                  required 
+                />
+              </div>
+              <button 
+                type="submit"
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+              >
+                Submit Application
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+
       <Footer />
-      <GetStartedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <GetStartedModal isOpen={false} onClose={() => {}} />
     </div>
   );
-};
-
-export default PricingPage;
+}
