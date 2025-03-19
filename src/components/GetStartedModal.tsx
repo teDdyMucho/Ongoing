@@ -31,25 +31,69 @@ export default function GetStartedModal({ isOpen, onClose }: GetStartedModalProp
     setError(null);
 
     try {
-      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
-      if (!webhookUrl) {
-        throw new Error('Webhook URL not configured');
+      // NocoDB API configuration
+      const nocodbBaseUrl = import.meta.env.VITE_NOCODB_API_URL;
+      const nocodbAuthToken = import.meta.env.VITE_NOCODB_AUTH_TOKEN;
+      const nocodbTableId = 'm231p6gjk00cfxe'; // Table ID from the API example
+      
+      console.log('NocoDB Config:', { 
+        baseUrl: nocodbBaseUrl, 
+        tableId: nocodbTableId
+      });
+      
+      if (!nocodbBaseUrl || !nocodbAuthToken) {
+        throw new Error('NocoDB API configuration is missing');
       }
 
-      const response = await axios.post(webhookUrl, {
-        ...formData,
-        timestamp: new Date().toISOString(),
-        source: 'get_started_form'
-      });
+      // Prepare the API endpoint for inserting a record using the correct format
+      const apiEndpoint = `${nocodbBaseUrl}/api/v2/tables/${nocodbTableId}/records`;
+      
+      console.log('Submitting to endpoint:', apiEndpoint);
 
-      if (response.status === 200) {
+      // Send data to NocoDB
+      const response = await axios.post(
+        apiEndpoint,
+        {
+          ...formData,
+          timestamp: new Date().toISOString(),
+          source: 'get_started_form'
+        },
+        {
+          headers: {
+            'xc-token': nocodbAuthToken, // Changed from 'xc-auth' to 'xc-token'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          withCredentials: false
+        }
+      );
+
+      console.log('API Response:', response);
+
+      if (response.status === 200 || response.status === 201) {
         setSubmitted(true);
+        // Reset form data
+        setFormData({
+          businessName: '',
+          name: '',
+          phone: '',
+          position: '',
+          email: '',
+          businessLink: '',
+          industry: '',
+          challenges: ''
+        });
       } else {
-        throw new Error('Failed to submit form');
+        throw new Error(`Failed to submit form: ${response.status} ${response.statusText}`);
       }
     } catch (err) {
-      setError('Something went wrong. Please try again later.');
       console.error('Form submission error:', err);
+      // Provide more detailed error message
+      if (err instanceof Error) {
+        setError(`Error: ${err.message}`);
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
     } finally {
       setIsSubmitting(false);
     }

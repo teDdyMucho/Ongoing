@@ -20,11 +20,6 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
-      {/* Debug element to show modal state */}
-      <div className="fixed top-0 right-0 bg-black text-white p-2 z-50">
-        Modal state: {isModalOpen ? 'OPEN' : 'CLOSED'}
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-20">

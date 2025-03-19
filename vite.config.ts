@@ -6,6 +6,11 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  define: {
+    'import.meta.env.VITE_NOCODB_API_URL': JSON.stringify('https://app.nocodb.com'),
+    'import.meta.env.VITE_NOCODB_AUTH_TOKEN': JSON.stringify('8B7UB0K-eO1sIpNSZmstyUsHpt5UqRsOAa1zTKXS'),
+    // Table ID is now hardcoded in the component
+  },
   build: {
     rollupOptions: {
       output: {

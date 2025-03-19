@@ -18,7 +18,7 @@ export default function Navbar() {
               <img 
                 src="https://i.imgur.com/YmALt4z.png" 
                 alt="OnGoing Workforce" 
-                className="h-8"
+                className="h-16"
               />
             </Link>
           </div>
