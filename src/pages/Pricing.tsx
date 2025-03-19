@@ -1,45 +1,31 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Check, Users, Bot, Zap, PhoneCall } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import GetStartedModal from '../components/GetStartedModal';
+// import TestModal from '../components/TestModal';
 
 export default function PricingPage() {
   const navigate = useNavigate();
-  const [showForm, setShowForm] = React.useState(false);
-  const [formData, setFormData] = React.useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const formRef = React.useRef<HTMLDivElement>(null);
-
-  const handleGetStarted = () => {
-    setShowForm(true);
-    setTimeout(() => {
-      formRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  // Debug function to ensure state is changing
+  const openModal = () => {
+    console.log('Opening modal, current state:', isModalOpen);
+    setIsModalOpen(true);
+    console.log('State after setting:', true);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
+      {/* Debug element to show modal state */}
+      <div className="fixed top-0 right-0 bg-black text-white p-2 z-50">
+        Modal state: {isModalOpen ? 'OPEN' : 'CLOSED'}
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-20">
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
@@ -73,7 +59,7 @@ export default function PricingPage() {
             </div>
             <div className="flex-shrink-0">
               <button 
-                onClick={handleGetStarted}
+                onClick={openModal}
                 className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-300 shadow-md"
               >
                 Get Started Now
@@ -138,7 +124,7 @@ export default function PricingPage() {
                 </div>
               </div>
               <button 
-                onClick={handleGetStarted}
+                onClick={openModal}
                 className="mt-8 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors"
                 >
                 Get Started
@@ -217,7 +203,7 @@ export default function PricingPage() {
                 </div>
               </div>
               <button 
-                onClick={handleGetStarted}
+                onClick={openModal}
                 className="mt-8 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                 Get Started
@@ -278,67 +264,13 @@ export default function PricingPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {showForm && (
-          <div ref={formRef} className="mt-8 bg-white p-8 rounded-2xl shadow-xl">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Start Your AI Journey</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                <input 
-                  name="fullName"
-                  type="text" 
-                  value={formData.fullName} 
-                  onChange={handleInputChange} 
-                  className="mt-1 block w-full rounded-lg border p-2" 
-                  required 
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input 
-                  name="email"
-                  type="email" 
-                  value={formData.email} 
-                  onChange={handleInputChange} 
-                  className="mt-1 block w-full rounded-lg border p-2" 
-                  required 
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input 
-                  name="phone"
-                  type="tel" 
-                  value={formData.phone} 
-                  onChange={handleInputChange} 
-                  className="mt-1 block w-full rounded-lg border p-2" 
-                  required 
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Message</label>
-                <textarea 
-                  name="message"
-                  value={formData.message} 
-                  onChange={handleInputChange} 
-                  className="mt-1 block w-full rounded-lg border p-2" 
-                  required 
-                />
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
-              >
-                Submit Application
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-
       <Footer />
-      <GetStartedModal isOpen={false} onClose={() => {}} />
+      
+      {/* Use the original GetStartedModal */}
+      <GetStartedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      
+      {/* Test modal - temporarily commented out */}
+      {/* <TestModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
     </div>
   );
 }

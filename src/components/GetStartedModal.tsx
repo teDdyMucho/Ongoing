@@ -9,6 +9,8 @@ interface GetStartedModalProps {
 }
 
 export default function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
+  console.log('GetStartedModal rendered with isOpen:', isOpen);
+
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
