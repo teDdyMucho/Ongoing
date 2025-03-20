@@ -7,6 +7,13 @@ interface Message {
   text: string;
   sender: 'user' | 'admin';
   timestamp: Date;
+  isHtml?: boolean;
+}
+
+interface WebhookResponse {
+  message?: string;
+  output?: string;
+  error?: string;
 }
 
 export default function ChatWidget() {
@@ -17,6 +24,16 @@ export default function ChatWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const WEBHOOK_URL = 'https://primary-production-166e.up.railway.app/webhook/4ad384fc-ff50-46a4-bf31-947c66531d2c/chat';
+  
+  // Generate a persistent user ID for the session
+  const [userId] = useState(() => {
+    const savedId = localStorage.getItem('chat_user_id');
+    if (savedId) return savedId;
+    
+    const newId = 'user-' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('chat_user_id', newId);
+    return newId;
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -42,24 +59,98 @@ export default function ChatWidget() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(WEBHOOK_URL, {
+      // Log the request payload for debugging
+      const payload = {
         message: newMessage.text,
         timestamp: newMessage.timestamp.toISOString(),
-        userId: 'user-' + Math.random().toString(36).substr(2, 9),
+        userId: userId,
+        sessionId: userId + '-' + new Date().toISOString().split('T')[0],
+      };
+      console.log('Sending to webhook:', payload);
+      
+      // Send message to n8n webhook with increased timeout
+      const response = await axios.post<WebhookResponse>(WEBHOOK_URL, payload, {
+        timeout: 10000, // 10 seconds timeout
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
       });
+      
+      // Log the response for debugging
+      console.log('Webhook response:', response.data);
+
+      // Process the response from n8n
+      let responseText = 'Thank you for your message. Our team will get back to you shortly.';
+      let isHtml = false;
+      
+      if (response.data) {
+        if (typeof response.data === 'string') {
+          responseText = response.data;
+        } else if (response.data.output) {
+          // Handle the output field which may contain HTML
+          responseText = response.data.output;
+          isHtml = true;
+        } else if (response.data.message) {
+          responseText = response.data.message;
+        } else {
+          // If response exists but doesn't match expected format, log it
+          console.log('Unexpected response format:', response.data);
+          responseText = JSON.stringify(response.data);
+        }
+      }
 
       const adminResponse: Message = {
         id: Date.now().toString(),
-        text: response.data,
+        text: responseText,
         sender: 'admin',
         timestamp: new Date(),
+        isHtml: isHtml
       };
+      
       setMessages(prev => [...prev, adminResponse]);
     } catch (error) {
       console.error('Error sending message:', error);
+      
+      // More detailed error logging
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error('Response error data:', error.response.data);
+          console.error('Response error status:', error.response.status);
+          console.error('Response error headers:', error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('No response received:', error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Request setup error:', error.message);
+        }
+      }
+      
+      // Handle different types of errors
+      let errorMessage = 'Sorry, there was an error sending your message. Our team has been notified and we will fix this issue soon.';
+      
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 429) {
+          errorMessage = 'You have sent too many messages. Please wait a moment before trying again.';
+        } else if (error.response.status >= 500) {
+          errorMessage = 'Our chat service is currently experiencing issues. Please try again later.';
+        } else if (error.response.status === 404) {
+          errorMessage = 'The chat service endpoint could not be found. Please check the webhook URL.';
+        } else if (error.response.status === 400) {
+          errorMessage = 'The chat service rejected your message. Please try a different message.';
+        }
+      } else if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
+        errorMessage = 'The chat service took too long to respond. Please try again later.';
+      } else if (axios.isAxiosError(error) && !error.response) {
+        errorMessage = 'Could not connect to the chat service. Please check your internet connection.';
+      }
+      
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
-        text: 'Sorry, there was an error sending your message. Our team has been notified and we will fix this issue soon.',
+        text: errorMessage,
         sender: 'admin',
         timestamp: new Date(),
       }]);
@@ -71,6 +162,16 @@ export default function ChatWidget() {
   const handleChatStart = () => {
     setShowOptions(false);
     setIsOpen(true);
+    
+    // Send initial greeting if this is the first message
+    if (messages.length === 0) {
+      setMessages([{
+        id: Date.now().toString(),
+        text: 'Hello! How can we help you today?',
+        sender: 'admin',
+        timestamp: new Date(),
+      }]);
+    }
   };
 
   const handleCallStart = () => {
@@ -158,7 +259,14 @@ export default function ChatWidget() {
                       : 'bg-gray-100 text-gray-800'
                   }`}
                 >
-                  <p className="break-words">{msg.text}</p>
+                  {msg.isHtml ? (
+                    <div 
+                      className="break-words" 
+                      dangerouslySetInnerHTML={{ __html: msg.text }}
+                    />
+                  ) : (
+                    <p className="break-words">{msg.text}</p>
+                  )}
                   <p className={`text-xs mt-1 ${
                     msg.sender === 'user' ? 'text-green-100' : 'text-gray-500'
                   }`}>
@@ -168,6 +276,14 @@ export default function ChatWidget() {
               </div>
             ))}
             <div ref={messagesEndRef} />
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 rounded-lg p-3 flex items-center space-x-2">
+                  <Loader2 className="w-4 h-4 animate-spin text-gray-500" />
+                  <span className="text-gray-500 text-sm">Typing...</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input Form */}
@@ -183,7 +299,7 @@ export default function ChatWidget() {
               />
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || !message.trim()}
                 className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
