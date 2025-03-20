@@ -16,7 +16,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const WEBHOOK_URL = 'https://primary-production-166e.up.railway.app/webhook-test/02b13a3b-651b-47a5-b864-08dacbd10e46';
+  const WEBHOOK_URL = 'https://primary-production-166e.up.railway.app/webhook/4ad384fc-ff50-46a4-bf31-947c66531d2c/chat';
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
