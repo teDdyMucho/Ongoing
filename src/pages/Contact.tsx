@@ -111,9 +111,9 @@ export default function ContactPage() {
                     </div>
                     <div className="ml-3">
                       <p className="text-gray-900 font-medium">Angelo Tapang</p>
-                      <p className="text-gray-600">IT Manager</p>
+                      <p className="text-gray-600">Founder</p>
                       <a href="mailto:support@ongoing.solutions" className="text-blue-600 hover:text-blue-700">
-                        support@ongoing.solutions
+                        tapangjoseangelo@gmail.com
                       </a>
                     </div>
                   </div>
@@ -123,16 +123,8 @@ export default function ContactPage() {
                     </div>
                     <div className="ml-3">
                       <div className="text-gray-600">
-                        <span className="font-medium text-green-600"><WhatsAppIcon />WhatsApp:</span>
-                        <p className="text-gray-600"> +63 912 345 6789</p>
-                      </div>
-                      <div className="text-gray-600">
-                        <span className="font-medium text-[#7360F2]"><ViberIcon />Viber:</span>
-                        <p className="text-gray-600"> +63 912 345 6789</p>
-                      </div>
-                      <div className="text-gray-600">
-                        <span className="font-medium text-[#0088cc]"><TelegramIcon />Telegram:</span>
-                        <p className="text-gray-600"> +63 912 345 6789</p>
+                        <span className="font-medium text-green-600"><WhatsAppIcon />Phone:</span>
+                        <p className="text-gray-600"> +63 993 287 5201</p>
                       </div>
                     </div>
                   </div>
