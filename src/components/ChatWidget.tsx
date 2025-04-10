@@ -231,7 +231,7 @@ export default function ChatWidget() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="absolute bottom-0 right-0 w-full sm:w-96 h-[80vh] sm:h-[500px] bg-white rounded-t-lg sm:rounded-lg shadow-xl flex flex-col">
+        <div className="fixed inset-0 sm:absolute sm:inset-auto sm:bottom-0 sm:right-0 w-full sm:w-96 h-full sm:h-[500px] bg-white sm:rounded-lg shadow-xl flex flex-col z-50">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="text-lg font-semibold text-gray-800">Chat with Us</h3>
